@@ -100,3 +100,6 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: true
 swagger:
   enable: true
+kapok:
+  jwt-key: kapok
+  token-expired-in: 86400000
