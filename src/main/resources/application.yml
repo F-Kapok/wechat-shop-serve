@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: dev
+  thymeleaf:
+    check-template-location: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+kapok:
+  api-package: com.fans.api

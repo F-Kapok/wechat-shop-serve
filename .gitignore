@@ -1,0 +1,65 @@
+<<<<<<< HEAD
+*.class
+
+#package file
+*.war
+*.ear
+
+#maven ignore
+target/
+
+#eclipse ignore
+.settiongs/
+.project
+.classpatch
+
+#idea ignore
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+#temp file ignore
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+
+#system ignore
+.DS_Store
+Thumbs.db
+=======
+*.class
+
+#package file
+*.war
+*.ear
+
+#maven ignore
+target/
+
+#eclipse ignore
+.settings/
+.project
+.classpatch
+
+#idea ignore
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+#temp file ignore
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+
+#system ignore
+.DS_Store
+Thumbs.db
+>>>>>>> 715a605... 微信小程序服务端
