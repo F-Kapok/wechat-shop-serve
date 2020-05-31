@@ -5,7 +5,7 @@ package com.fans.service;
  *
  * @author k
  * @version 1.0
- * @description 微信认证服务层1
+ * @description 微信认证服务层
  * @date 2020-05-31 21:34
  **/
 public interface IWeChatAuthenticationService {
