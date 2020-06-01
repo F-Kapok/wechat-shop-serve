@@ -1,9 +1,7 @@
 package com.fans.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
