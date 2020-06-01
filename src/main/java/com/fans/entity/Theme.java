@@ -15,12 +15,12 @@ import java.util.List;
  * @description
  * @date 2020-05-31 16:27
  **/
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @ToString
 @Where(clause = "delete_time is null")
 public class Theme extends BaseEntity implements Serializable {

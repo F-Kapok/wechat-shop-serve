@@ -1,8 +1,6 @@
 package com.fans.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fans.entity.Category;
-import com.fans.vo.CategoriesAllVO;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +15,6 @@ import java.util.Map;
  **/
 public interface ICategoryService {
 
-    Map<Integer , List<Category>> getAllCategories();
+    Map<Integer, List<Category>> getAllCategories();
 
 }

@@ -16,7 +16,8 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @ToString
 public class Spec implements Serializable {
 

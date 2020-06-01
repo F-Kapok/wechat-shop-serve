@@ -2,10 +2,11 @@ package com.fans.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Objects;
 
 /**
  * className: SpuDetailImg
@@ -20,9 +21,10 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @ToString
-public class SpuDetailImg implements Serializable {
+public class SpuDetailImg extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -20200530194642L;
     @Id

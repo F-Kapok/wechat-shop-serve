@@ -21,9 +21,10 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @ToString
-public class SpuImg implements Serializable {
+public class SpuImg extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -20200530194643L;
 

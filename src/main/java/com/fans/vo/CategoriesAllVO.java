@@ -1,6 +1,5 @@
 package com.fans.vo;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fans.entity.Category;
 import lombok.*;
 

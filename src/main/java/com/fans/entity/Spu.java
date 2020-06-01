@@ -5,10 +5,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * className: Spu
@@ -18,12 +15,12 @@ import java.util.Objects;
  * @description
  * @date 2020-05-30 16:30
  **/
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @ToString
 @Where(clause = "delete_time is null and online = 1")
 public class Spu extends BaseEntity implements Serializable {

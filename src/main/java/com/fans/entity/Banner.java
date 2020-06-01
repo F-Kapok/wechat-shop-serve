@@ -5,9 +5,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * className: Banner
@@ -17,12 +15,12 @@ import java.util.Objects;
  * @description
  * @date 2020-05-30 13:32
  **/
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @ToString
 @Where(clause = "delete_time is null")
 public class Banner extends BaseEntity implements Serializable {

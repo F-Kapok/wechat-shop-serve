@@ -2,7 +2,6 @@ package com.fans.repository;
 
 import com.fans.entity.Spu;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -30,6 +29,7 @@ public interface SpuRepository extends JpaRepository<Spu, Long> {
      * @date 2020/05/30 22:33
      **/
     Page<Spu> findByCategoryId(Long categoryId, Pageable pageable);
+
     /**
      * description: 查询一级分类列表
      *

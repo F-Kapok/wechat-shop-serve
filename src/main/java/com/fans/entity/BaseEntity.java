@@ -2,7 +2,6 @@ package com.fans.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -21,7 +20,8 @@ import java.sql.Date;
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @ToString
 public abstract class BaseEntity implements Serializable {
 

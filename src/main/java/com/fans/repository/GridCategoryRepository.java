@@ -4,8 +4,6 @@ import com.fans.entity.GridCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * interfaceName: GridCategoryRepository
  *
@@ -15,5 +13,5 @@ import java.util.List;
  * @date 2020-05-31 16:20
  **/
 @Repository
-public interface GridCategoryRepository extends JpaRepository<GridCategory,Long> {
+public interface GridCategoryRepository extends JpaRepository<GridCategory, Long> {
 }

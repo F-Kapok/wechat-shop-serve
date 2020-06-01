@@ -25,10 +25,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @ToString
 @Where(clause = "delete_time is null and online = 1")
-public class Sku implements Serializable {
+public class Sku extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -20200530194639L;
 

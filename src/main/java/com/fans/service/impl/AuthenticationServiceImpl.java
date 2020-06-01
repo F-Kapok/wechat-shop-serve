@@ -2,10 +2,7 @@ package com.fans.service.impl;
 
 import com.fans.dto.TokenGetDTO;
 import com.fans.service.IAuthenticationService;
-import lombok.*;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
 
 /**
  * className: AuthenticationServiceImpl

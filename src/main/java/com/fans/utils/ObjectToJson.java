@@ -11,7 +11,7 @@ import java.util.List;
  * @description
  * @date 2020-05-31 15:12
  **/
-public class ObjectToJson<T> implements AttributeConverter<List<T>, String>{
+public class ObjectToJson<T> implements AttributeConverter<List<T>, String> {
 
 
     @Override

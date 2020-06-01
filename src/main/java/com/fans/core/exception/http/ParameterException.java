@@ -1,9 +1,5 @@
 package com.fans.core.exception.http;
 
-import lombok.*;
-
-import java.io.Serializable;
-
 /**
  * className: ParameterException
  *

@@ -19,12 +19,12 @@ import java.io.Serializable;
  * @description
  * @date 2020-05-31 23:31
  **/
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @ToString
 @Where(clause = "delete_time is null")
 public class User extends BaseEntity implements Serializable {
@@ -47,6 +47,6 @@ public class User extends BaseEntity implements Serializable {
     }
 
     public void setWxProfile(JSONObject wxProfile) {
-        this.wxProfile = JsonUtils.obj2String(wxProfile );
+        this.wxProfile = JsonUtils.obj2String(wxProfile);
     }
 }

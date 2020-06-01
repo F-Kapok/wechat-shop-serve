@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * className: GridCategory
@@ -17,13 +16,13 @@ import java.sql.Timestamp;
  * @description
  * @date 2020-05-31 16:13
  **/
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "grid_category", schema = "wechat")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @ToString
 @Where(clause = "delete_time is null")
 public class GridCategory extends BaseEntity implements Serializable {
