@@ -101,5 +101,6 @@ spring:
 swagger:
   enable: true
 kapok:
-  jwt-key: kapok
-  token-expired-in: 86400000
+  security:
+    jwt-key: kapok
+    token-expired-in: 7200

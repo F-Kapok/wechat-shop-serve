@@ -2,8 +2,10 @@ package com.fans.api.v1;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fans.core.exception.http.NotFountException;
+import com.fans.dto.TokenDTO;
 import com.fans.dto.TokenGetDTO;
 import com.fans.service.IWeChatAuthenticationService;
+import com.fans.utils.JwtTokenUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +46,14 @@ public class TokenController {
                 throw new NotFountException(10003);
         }
         jsonObject.put("token", token);
+        return jsonObject;
+    }
+
+    @PostMapping(value = "/verify")
+    public JSONObject verify(@RequestBody TokenDTO tokenDTO) {
+        JSONObject jsonObject = new JSONObject();
+        Boolean valid = JwtTokenUtils.verifyToken(tokenDTO);
+        jsonObject.put("is_valid", valid);
         return jsonObject;
     }
 

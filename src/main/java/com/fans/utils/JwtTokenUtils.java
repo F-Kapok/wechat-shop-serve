@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fans.dto.TokenDTO;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,15 +29,26 @@ public class JwtTokenUtils {
 
     private static String jwtKey;
 
-    @Value(value = "${kapok.jwt-key}")
+    public static Boolean verifyToken(TokenDTO tokenDTO) {
+        Algorithm algorithm = Algorithm.HMAC256(jwtKey);
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        try {
+            verifier.verify(tokenDTO.getToken());
+        } catch (JWTVerificationException e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Value(value = "${kapok.security.jwt-key}")
     public void setJwtKey(String jwtKey) {
         JwtTokenUtils.jwtKey = jwtKey;
     }
 
-    private static long expiredTimeIn;
+    private static Integer expiredTimeIn;
 
-    @Value(value = "${kapok.expired-time-in}")
-    public static void setExpiredTimeIn(long expiredTimeIn) {
+    @Value(value = "${kapok.security.token-expired-in}")
+    public void setExpiredTimeIn(Integer expiredTimeIn) {
         JwtTokenUtils.expiredTimeIn = expiredTimeIn;
     }
 
@@ -66,7 +78,7 @@ public class JwtTokenUtils {
         return JWT.create()
                 .withClaim("uid", uid)
                 .withClaim("scope", scope)
-                .withExpiresAt(now.plus(expiredTimeIn).toDate())
+                .withExpiresAt(now.plusSeconds(expiredTimeIn).toDate())
                 .withIssuedAt(now.toDate())
                 .sign(algorithm);
     }

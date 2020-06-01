@@ -1,5 +1,6 @@
 package com.fans.api.v1;
 
+import com.fans.annotation.ScopeLevel;
 import com.fans.core.exception.http.NotFountException;
 import com.fans.entity.Banner;
 import com.fans.service.IBannerService;
@@ -26,6 +27,7 @@ public class BannerController {
     private IBannerService iBannerService;
 
     @GetMapping(value = "/name/{name}")
+    @ScopeLevel(value = 4)
     public Banner getBannerByName(@PathVariable(name = "name") String name) {
         Banner banner = iBannerService.getBannerByName(name);
         if (banner == null) {
