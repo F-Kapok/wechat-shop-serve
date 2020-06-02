@@ -3,9 +3,9 @@ package com.fans.entity;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * className: Category
@@ -37,5 +37,10 @@ public class Category extends BaseEntity implements Serializable {
     private Integer index;
     private Integer online;
     private Integer level;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "coupon_category", joinColumns = {@JoinColumn(name = "category_id")},
+            inverseJoinColumns = {@JoinColumn(name = "coupon_id")})
+    List<Coupon> couponList;
 
 }
