@@ -18,4 +18,5 @@ public interface ICouponService {
 
     List<Coupon> getWholeStoreCoupons();
 
+    void collectOneCoupon(Long couponId, Long uid);
 }

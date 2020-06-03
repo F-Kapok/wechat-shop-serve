@@ -40,7 +40,7 @@ public class Coupon extends BaseEntity implements Serializable {
     private BigDecimal rate;
     private Integer type;
     @Column(name = "activity_id")
-    private Integer activityId;
+    private Long activityId;
     private String remark;
     private Boolean wholeStore;
 

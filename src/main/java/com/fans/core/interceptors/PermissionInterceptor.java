@@ -2,8 +2,12 @@ package com.fans.core.interceptors;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.fans.annotation.ScopeLevel;
+import com.fans.common.LocalUser;
 import com.fans.core.exception.http.ForbiddenException;
 import com.fans.core.exception.http.UnAuthenticatedException;
+import com.fans.entity.User;
+import com.fans.repository.UserRepository;
+import com.fans.utils.ApplicationContextHelper;
 import com.fans.utils.JwtTokenUtils;
 import com.google.common.base.Splitter;
 import org.apache.commons.lang3.StringUtils;
@@ -52,7 +56,11 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
         String token = tokenList.get(1);
         Optional<Map<String, Claim>> optionalMap = JwtTokenUtils.getClaims(token);
         Map<String, Claim> claimMap = optionalMap.orElseThrow(() -> new UnAuthenticatedException(10004));
-        return hasPermission(scopeLevel.get(), claimMap);
+        boolean valid = hasPermission(scopeLevel.get(), claimMap);
+        if (valid) {
+            setToThreadLocal(claimMap);
+        }
+        return valid;
     }
 
     @Override
@@ -62,6 +70,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        LocalUser.clear();
         super.afterCompletion(request, response, handler, ex);
     }
 
@@ -89,5 +98,15 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
             throw new ForbiddenException(10005);
         }
         return true;
+    }
+
+    private void setToThreadLocal(Map<String, Claim> map) {
+        Long uid = map.get("uid").asLong();
+        Integer scope = map.get("scope").asInt();
+        UserRepository userRepository = ApplicationContextHelper.popBean(UserRepository.class);
+        assert userRepository != null;
+        Optional<User> userOptional = userRepository.findById(uid);
+        assert userOptional.isPresent();
+        LocalUser.set(userOptional.get(), scope);
     }
 }

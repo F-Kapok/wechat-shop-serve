@@ -1,13 +1,13 @@
 package com.fans.api.v1;
 
+import com.fans.annotation.ScopeLevel;
+import com.fans.common.LocalUser;
+import com.fans.core.exception.http.CreateSuccess;
 import com.fans.entity.Coupon;
 import com.fans.service.ICouponService;
 import com.fans.vo.CouponPureVO;
 import com.google.common.collect.Lists;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -46,4 +46,11 @@ public class CouponController {
         return CouponPureVO.getList(coupons);
     }
 
+    @ScopeLevel
+    @PostMapping(value = "/collect/{id}")
+    public void collectCoupon(@PathVariable(name = "id") Long couponId) {
+        Long uid = LocalUser.getUser().getId();
+        iCouponService.collectOneCoupon(couponId, uid);
+        throw new CreateSuccess(0);
+    }
 }
