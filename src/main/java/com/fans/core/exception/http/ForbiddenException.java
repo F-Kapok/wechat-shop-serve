@@ -12,8 +12,8 @@ import org.springframework.http.HttpStatus;
  **/
 public class ForbiddenException extends HttpException {
 
-    public ForbiddenException(Integer code ) {
-        this.code=code;
-        this.httpStatus  = HttpStatus.FORBIDDEN.value();
+    public ForbiddenException(Integer code) {
+        this.code = code;
+        this.httpStatus = HttpStatus.FORBIDDEN.value();
     }
 }

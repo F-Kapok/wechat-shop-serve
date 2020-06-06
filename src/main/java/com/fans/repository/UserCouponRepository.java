@@ -18,4 +18,6 @@ import java.util.Optional;
 public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
 
     Optional<UserCoupon> findByCouponIdAndUserId(Long couponId, Long userId);
+
+    Optional<UserCoupon> findFirstByUserIdAndCouponId(Long userId, Long couponId);
 }

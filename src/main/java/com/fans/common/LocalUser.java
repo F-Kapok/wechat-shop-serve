@@ -23,7 +23,7 @@ public class LocalUser {
     }
 
     public static User getUser() {
-        return THREAD_LOCAL.get().getObject("user",User.class);
+        return THREAD_LOCAL.get().getObject("user", User.class);
     }
 
     public static Integer getScope() {

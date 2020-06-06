@@ -11,5 +11,5 @@ package com.fans.common;
 public interface CodeEnum {
 
     Integer getCode();
-    
+
 }

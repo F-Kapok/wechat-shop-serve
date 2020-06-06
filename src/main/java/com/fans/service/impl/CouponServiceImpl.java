@@ -10,7 +10,6 @@ import com.fans.repository.ActivityRepository;
 import com.fans.repository.CouponRepository;
 import com.fans.repository.UserCouponRepository;
 import com.fans.service.ICouponService;
-import com.fans.utils.EnumUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.springframework.stereotype.Service;
@@ -74,8 +73,21 @@ public class CouponServiceImpl implements ICouponService {
         userCouponRepository.save(userCoupon);
     }
 
-    public static void main(String[] args) {
-        System.out.println(EnumUtils.getByCode(1, CouponStatus.class).getDesc());
+    @Override
+    public List<Coupon> getMyAvailableCoupons(Long uid) {
+        DateTime now = DateTime.now();
+        return couponRepository.findMyAvailableCoupons(uid, now.toDate());
     }
 
+    @Override
+    public List<Coupon> getMyUsedCoupons(Long uid) {
+        DateTime now = DateTime.now();
+        return couponRepository.findMyUsedCoupons(uid, now.toDate());
+    }
+
+    @Override
+    public List<Coupon> getMyExpiredCoupons(Long uid) {
+        DateTime now = DateTime.now();
+        return couponRepository.findMyExpiredCoupons(uid, now.toDate());
+    }
 }

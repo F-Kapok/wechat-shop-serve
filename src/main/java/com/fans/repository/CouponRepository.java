@@ -35,10 +35,40 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
             "and a.endTime > :now\n")
     List<Coupon> findByCategoryId(Long cid, Date now);
 
-    @Query(value= "select c from Coupon c\n" +
+    @Query(value = "select c from Coupon c\n" +
             "left join Activity a on a.id = c.activityId\n" +
             "where c.wholeStore = :isWholeStore\n" +
             "and a.startTime < :now\n" +
             "and a.endTime > :now")
     List<Coupon> getWholeStoreCoupons(boolean isWholeStore, Date now);
+
+    @Query(value = "select c from Coupon c \n" +
+            "left join UserCoupon uc on uc.couponId = c.id\n" +
+            "left join   User u on u.id = uc.userId\n" +
+            "where u.id = :uid\n" +
+            "and uc.status = 1\n" +
+            "and c.startTime <= :now\n" +
+            "and c.endTime >= :now\n" +
+            "and uc.orderId is null")
+    List<Coupon> findMyAvailableCoupons(Long uid, Date now);
+
+
+    @Query(value = "select c from Coupon c\n" +
+            "left join UserCoupon uc on uc.couponId = c.id\n" +
+            "left join User  u on u.id = uc.userId\n" +
+            "where u.id = :uid\n" +
+            "and uc.status = 2\n" +
+            "and c.startTime <= :now\n" +
+            "and c.endTime >= :now\n" +
+            "and uc.orderId is not null")
+    List<Coupon> findMyUsedCoupons(Long uid, Date now);
+
+    @Query(value = "select c from Coupon c\n" +
+            "left join   UserCoupon uc on uc.couponId = c.id\n" +
+            "left join User u on u.id = uc.userId\n" +
+            "where u.id = :uid\n" +
+            "and uc.status <> 2\n" +
+            "and c.endTime < :now\n" +
+            "and uc.orderId is null")
+    List<Coupon> findMyExpiredCoupons(Long uid, Date now);
 }

@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
  * @description
  * @date 2020-06-02 22:51
  **/
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
