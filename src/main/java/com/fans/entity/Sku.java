@@ -1,6 +1,7 @@
 package com.fans.entity;
 
 import com.fans.utils.JsonUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.*;
 import org.hibernate.annotations.Where;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * className: Sku
@@ -59,5 +61,14 @@ public class Sku extends BaseEntity implements Serializable {
 
     public void setSpecs(List<Spec> specs) {
         this.specs = JsonUtils.obj2String(specs);
+    }
+
+    public BigDecimal getActualPrice() {
+        return discountPrice == null ? price : discountPrice;
+    }
+
+    @JsonIgnore
+    public List<String> getSpecValueList() {
+        return getSpecs().stream().map(Spec::getValue).collect(Collectors.toList());
     }
 }

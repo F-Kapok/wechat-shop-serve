@@ -2,6 +2,8 @@ package com.fans.repository;
 
 import com.fans.entity.UserCoupon;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -19,5 +21,15 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
 
     Optional<UserCoupon> findByCouponIdAndUserId(Long couponId, Long userId);
 
-    Optional<UserCoupon> findFirstByUserIdAndCouponId(Long userId, Long couponId);
+    Optional<UserCoupon> findFirstByUserIdAndCouponIdAndStatusAndOrderIdIsNull(Long userId, Long couponId, Integer status);
+
+    @Modifying
+    @Query(value = "update UserCoupon uc \n" +
+            "set uc.status = 2,\n" +
+            "uc.orderId = :orderId\n" +
+            "where uc.userId = :userId\n" +
+            "and uc.couponId = :couponId\n" +
+            "and uc.status = 1\n" +
+            "and uc.orderId is null")
+    int writeOff(Long couponId, Long orderId, Long userId);
 }

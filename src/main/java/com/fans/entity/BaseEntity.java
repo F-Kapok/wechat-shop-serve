@@ -3,9 +3,10 @@ package com.fans.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * className: BaseEntiry
@@ -26,8 +27,10 @@ public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = -20200530133900L;
 
     @JsonIgnore
+    @Column(insertable = false, updatable = false)
     private Date createTime;
     @JsonIgnore
+    @Column(insertable = false, updatable = false)
     private Date updateTime;
     @JsonIgnore
     private Date deleteTime;

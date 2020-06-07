@@ -2,6 +2,8 @@ package com.fans.repository;
 
 import com.fans.entity.Sku;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +20,10 @@ import java.util.List;
 public interface SkuRepository extends JpaRepository<Sku, Long> {
 
     List<Sku> findByIdIn(List<Long> skuIds);
+
+    @Modifying
+    @Query(value = "update Sku s set s.stock = s.stock - :quantity\n" +
+            "where s.id = :skuId\n" +
+            "and s.stock >= :quantity")
+    int reduceStock(Long skuId, Long quantity);
 }

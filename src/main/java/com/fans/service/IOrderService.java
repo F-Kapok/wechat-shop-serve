@@ -1,6 +1,11 @@
 package com.fans.service;
 
 import com.fans.dto.OrderDTO;
+import com.fans.entity.Order;
+import com.fans.logic.OrderChecker;
+import org.springframework.data.domain.Page;
+
+import java.util.Optional;
 
 /**
  * interfaceName: IOrderService
@@ -12,5 +17,13 @@ import com.fans.dto.OrderDTO;
  **/
 public interface IOrderService {
 
-    void isOk(Long userId, OrderDTO orderDTO);
+    OrderChecker isOk(Long userId, OrderDTO orderDTO);
+
+    Long placeOrder(Long userId, OrderDTO orderDTO, OrderChecker orderChecker);
+
+    Page<Order> getUnpaid(int pageNum, Integer count);
+
+    Page<Order> getByStatus(int status, int pageNum, Integer count);
+
+    Optional<Order> getOrderDetail(Long orderId);
 }

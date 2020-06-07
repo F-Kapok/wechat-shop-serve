@@ -105,3 +105,6 @@ kapok:
   security:
     jwt-key: kapok
     token-expired-in: 7200
+  order:
+    max-sku-limit: 777
+    pay-time-limit: 3600
