@@ -17,5 +17,7 @@ public interface ISpuService {
 
     Page<Spu> getLatestPagingSpu(Integer pageNum, Integer size);
 
+    Page<Spu> getHotLatestPagingSpu(Integer pageNum, Integer size);
+
     Page<Spu> getByCategory(Long categoryId, Boolean isRoot, Integer pageNum, Integer size);
 }

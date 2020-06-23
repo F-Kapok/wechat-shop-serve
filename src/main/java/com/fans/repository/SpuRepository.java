@@ -41,4 +41,14 @@ public interface SpuRepository extends JpaRepository<Spu, Long> {
      **/
     Page<Spu> findByRootCategoryId(Long categoryId, Pageable pageable);
 
+    /**
+     * description: 获取有折扣的spu 热门spu
+     *
+     * @param pageable 分页参数
+     * @return org.springframework.data.domain.Page<com.fans.entity.Spu>
+     * @author k
+     * @date 2020/06/23 12:15
+     **/
+    Page<Spu> findAllByDiscountPriceIsNotNull(Pageable pageable);
+
 }

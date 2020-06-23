@@ -37,6 +37,12 @@ public class SpuServiceImpl implements ISpuService {
     }
 
     @Override
+    public Page<Spu> getHotLatestPagingSpu(Integer pageNum, Integer size) {
+        Pageable pageRequest = PageRequest.of(pageNum, size, Sort.by("createTime").descending());
+        return spuRepository.findAllByDiscountPriceIsNotNull(pageRequest);
+    }
+
+    @Override
     public Page<Spu> getByCategory(Long categoryId, Boolean isRoot, Integer pageNum, Integer size) {
         Pageable pageable = PageRequest.of(pageNum, size, Sort.by("createTime").descending());
         if (isRoot) {

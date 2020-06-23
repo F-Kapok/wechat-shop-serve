@@ -56,6 +56,13 @@ public class SpuController {
         return new PagingDozer<>(spuList, SpuSimplifyVO.class);
     }
 
+    @GetMapping(value = "/hotLatest")
+    public PagingDozer<Spu, SpuSimplifyVO> getHotLatestSpuList(@RequestParam(name = "start", defaultValue = "0", required = false) Integer start,
+                                                               @RequestParam(name = "count", defaultValue = "10", required = false) Integer count) {
+        Page<Spu> spuList = iSpuService.getHotLatestPagingSpu(start / count, count);
+        return new PagingDozer<>(spuList, SpuSimplifyVO.class);
+    }
+
     @GetMapping(value = "/by/category/{id}")
     public PagingDozer<Spu, SpuSimplifyVO> getByCategory(@PathVariable(name = "id") Long categoryId,
                                                          @RequestParam(name = "is_root", defaultValue = "false") Boolean isRoot,
