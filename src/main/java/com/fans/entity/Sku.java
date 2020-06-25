@@ -3,7 +3,9 @@ package com.fans.entity;
 import com.fans.utils.JsonUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.Lists;
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
@@ -51,6 +53,9 @@ public class Sku extends BaseEntity implements Serializable {
     private Long rootCategoryId;
 
     public List<Spec> getSpecs() {
+        if (StringUtils.isBlank(this.specs)) {
+            return Lists.newArrayList();
+        }
         return JsonUtils.string2Obj(this.specs, new TypeReference<List<Spec>>() {
             @Override
             public Type getType() {
@@ -60,6 +65,9 @@ public class Sku extends BaseEntity implements Serializable {
     }
 
     public void setSpecs(List<Spec> specs) {
+        if (specs.isEmpty()) {
+            return;
+        }
         this.specs = JsonUtils.obj2String(specs);
     }
 

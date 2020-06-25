@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
@@ -65,6 +66,15 @@ public class GlobalExceptionAdvice {
         String method = req.getMethod();
         List<ObjectError> errors = e.getBindingResult().getAllErrors();
         String message = this.formatAllErrorMessages(errors);
+        return JsonData.failCodeMsg(10001, message, method + " " + requestUrl);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public JsonData<?> handleConstraintException(HttpServletRequest req, ConstraintViolationException e) {
+        String requestUrl = req.getRequestURI();
+        String method = req.getMethod();
+        String message = e.getMessage();
         return JsonData.failCodeMsg(10001, message, method + " " + requestUrl);
     }
 
