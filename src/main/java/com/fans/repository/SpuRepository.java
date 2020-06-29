@@ -51,4 +51,15 @@ public interface SpuRepository extends JpaRepository<Spu, Long> {
      **/
     Page<Spu> findAllByDiscountPriceIsNotNull(Pageable pageable);
 
+    /**
+     * description: 根据副标题和主标题模糊搜索spu 带分页
+     *
+     * @param likeQueryKey  模糊key
+     * @param likeQueryKey1 模糊key
+     * @param paging        分页参数
+     * @return org.springframework.data.domain.Page<com.fans.entity.Spu>
+     * @author k
+     * @date 2020/06/29 21:02
+     **/
+    Page<Spu> findByTitleLikeOrSubtitleLike(String likeQueryKey, String likeQueryKey1, Pageable paging);
 }
