@@ -34,7 +34,7 @@ public class CouponChecker {
         this.coupon = coupon;
     }
 
-    @Resource(name = "halfEvenRound")
+    @Resource(name = "upRound")
     private IMoneyDiscount iMoneyDiscount;
 
     public void isOk() {

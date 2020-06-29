@@ -43,7 +43,8 @@ public class Coupon extends BaseEntity implements Serializable {
     private Long activityId;
     private String remark;
     private Boolean wholeStore;
-
+    @Transient
+    private Integer status;
     @ManyToMany(mappedBy = "couponList", fetch = FetchType.LAZY)
     List<Category> categoryList;
 

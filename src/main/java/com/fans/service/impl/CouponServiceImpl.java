@@ -1,5 +1,6 @@
 package com.fans.service.impl;
 
+import com.fans.common.LocalUser;
 import com.fans.core.exception.http.NotFountException;
 import com.fans.core.exception.http.ParameterException;
 import com.fans.entity.Activity;
@@ -18,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
+
+import static com.fans.common.CommonUtils.setCouponStatus;
 
 /**
  * className: CouponServiceImpl
@@ -38,13 +42,17 @@ public class CouponServiceImpl implements ICouponService {
 
     @Override
     public List<Coupon> getByCategory(Long cid) {
-        return couponRepository.findByCategoryId(cid, DateTime.now().toDate());
+        List<Coupon> couponList = couponRepository.findByCategoryId(cid, DateTime.now().toDate());
+        setCouponStatus(couponList, userCouponRepository);
+        return couponList;
     }
+
 
     @Override
     public List<Coupon> getWholeStoreCoupons() {
-
-        return couponRepository.getWholeStoreCoupons(true, DateTime.now().toDate());
+        List<Coupon> couponList = couponRepository.getWholeStoreCoupons(true, DateTime.now().toDate());
+        setCouponStatus(couponList, userCouponRepository);
+        return couponList;
     }
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)

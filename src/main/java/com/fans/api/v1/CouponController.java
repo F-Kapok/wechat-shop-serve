@@ -34,6 +34,7 @@ public class CouponController {
 
 
     @GetMapping(value = "/by/category/{cid}")
+    @ScopeLevel
     public List<CouponPureVO> getCouponListByCategory(@PathVariable Long cid) {
         List<Coupon> coupons = iCouponService.getByCategory(cid);
         if (coupons.isEmpty()) {
@@ -43,6 +44,7 @@ public class CouponController {
     }
 
     @GetMapping("/whole_store")
+    @ScopeLevel
     public List<CouponPureVO> getWholeStoreCouponList() {
         List<Coupon> coupons = iCouponService.getWholeStoreCoupons();
         if (coupons.isEmpty()) {
@@ -51,16 +53,18 @@ public class CouponController {
         return CouponPureVO.getList(coupons);
     }
 
-    @ScopeLevel
+
     @PostMapping(value = "/collect/{id}")
+    @ScopeLevel
     public void collectCoupon(@PathVariable(name = "id") Long couponId) {
         Long uid = LocalUser.getUser().getId();
         iCouponService.collectOneCoupon(couponId, uid);
         throw new CreateSuccess(0);
     }
 
-    @ScopeLevel
+
     @GetMapping(value = "/myself/by/status/{status}")
+    @ScopeLevel
     public List<CouponPureVO> getMyCouponByStatus(@PathVariable Integer status) {
         Long userId = LocalUser.getUser().getId();
         List<Coupon> couponList;
@@ -80,8 +84,8 @@ public class CouponController {
         return CouponPureVO.getList(couponList);
     }
 
-    @ScopeLevel
     @GetMapping("/myself/available/with_category")
+    @ScopeLevel
     public List<CouponCategoryVO> getUserCouponWithCategory() {
         Long userId = LocalUser.getUser().getId();
         List<Coupon> couponList = iCouponService.getMyAvailableCoupons(userId);

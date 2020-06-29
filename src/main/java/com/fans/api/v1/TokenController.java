@@ -34,7 +34,7 @@ public class TokenController {
     @PostMapping(value = "")
     public JSONObject getToken(@RequestBody @Validated TokenGetDTO tokenGetDTO) {
         JSONObject jsonObject = new JSONObject();
-        String token = null;
+        String token;
         switch (tokenGetDTO.getType()) {
             case USER_WX:
                 token = iWeChatAuthenticationService.code2Session(tokenGetDTO.getAccount());

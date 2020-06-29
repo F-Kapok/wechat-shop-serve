@@ -39,6 +39,7 @@ public class CouponPureVO implements Serializable {
     private Integer activityId;
     private String remark;
     private Boolean wholeStore;
+    private Integer  status;
 
     public CouponPureVO(Coupon coupon) {
         BeanUtils.copyProperties(coupon, this);

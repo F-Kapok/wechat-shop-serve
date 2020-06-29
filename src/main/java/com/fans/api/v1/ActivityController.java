@@ -1,5 +1,6 @@
 package com.fans.api.v1;
 
+import com.fans.annotation.ScopeLevel;
 import com.fans.core.exception.http.NotFountException;
 import com.fans.entity.Activity;
 import com.fans.service.IActivityService;
@@ -28,6 +29,7 @@ public class ActivityController {
     private IActivityService iActivityService;
 
     @GetMapping(value = "/name/{name}")
+    @ScopeLevel
     public ActivityPureVO getHomeActivity(@PathVariable String name) {
         Optional<Activity> activityOptional = iActivityService.getByName(name);
         if (!activityOptional.isPresent()) {
@@ -38,6 +40,7 @@ public class ActivityController {
 
 
     @GetMapping(value = "/name/{name}/with_coupon")
+    @ScopeLevel
     public ActivityCouponVO getActivityWithCoupon(@PathVariable String name) {
         Optional<Activity> activityOptional = iActivityService.getByName(name);
         if (!activityOptional.isPresent()) {
