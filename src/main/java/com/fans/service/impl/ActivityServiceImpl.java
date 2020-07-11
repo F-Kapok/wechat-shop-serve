@@ -33,8 +33,7 @@ public class ActivityServiceImpl implements IActivityService {
     public Optional<Activity> getByName(String name) {
         Optional<Activity> activityOptional = activityRepository.findByName(name);
         activityOptional.ifPresent(activity -> {
-            List<Coupon> couponList = activity.getCouponList();
-            setCouponStatus(couponList, userCouponRepository);
+            activity.setCouponList(setCouponStatus(activity.getCouponList(), userCouponRepository));
         });
         return activityOptional;
     }

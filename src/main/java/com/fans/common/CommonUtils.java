@@ -10,6 +10,7 @@ import org.joda.time.Interval;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * className: CommonUtils
@@ -21,8 +22,8 @@ import java.util.Optional;
  **/
 public class CommonUtils {
 
-    public static void setCouponStatus(List<Coupon> couponList, UserCouponRepository userCouponRepository) {
-        couponList.forEach(coupon -> {
+    public static List<Coupon> setCouponStatus(List<Coupon> couponList, UserCouponRepository userCouponRepository) {
+        return couponList.stream().peek(coupon -> {
             Optional<UserCoupon> userCouponOptional = userCouponRepository.findByCouponIdAndUserId(coupon.getId(), LocalUser.getUser().getId());
             userCouponOptional.ifPresent(userCoupon -> {
                 Interval interval = new Interval(new DateTime(coupon.getStartTime().getTime()), new DateTime(coupon.getEndTime().getTime()));
@@ -32,13 +33,13 @@ public class CommonUtils {
                     coupon.setStatus(CouponStatus.AVAILABLE.getCode());
                 } else if (userCoupon.getStatus().equals(CouponStatus.USED.getCode())) {
                     coupon.setStatus(CouponStatus.USED.getCode());
-                } else if(!interval.contains(DateTime.now())&&userCoupon.getOrderId() ==null){
+                } else if (!interval.contains(DateTime.now()) && userCoupon.getOrderId() == null) {
                     coupon.setStatus(CouponStatus.EXPIRED.getCode());
-                }else{
+                } else {
                     coupon.setStatus(0);
                 }
             });
-        });
+        }).filter(coupon -> coupon.getStatus() == null || coupon.getStatus().equals(CouponStatus.AVAILABLE.getCode())).collect(Collectors.toList());
     }
 
     public static String yuan2FenPlainString(BigDecimal price) {

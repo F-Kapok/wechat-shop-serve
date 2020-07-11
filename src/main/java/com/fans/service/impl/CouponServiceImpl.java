@@ -43,16 +43,14 @@ public class CouponServiceImpl implements ICouponService {
     @Override
     public List<Coupon> getByCategory(Long cid) {
         List<Coupon> couponList = couponRepository.findByCategoryId(cid, DateTime.now().toDate());
-        setCouponStatus(couponList, userCouponRepository);
-        return couponList;
+        return setCouponStatus(couponList, userCouponRepository);
     }
 
 
     @Override
     public List<Coupon> getWholeStoreCoupons() {
         List<Coupon> couponList = couponRepository.getWholeStoreCoupons(true, DateTime.now().toDate());
-        setCouponStatus(couponList, userCouponRepository);
-        return couponList;
+        return setCouponStatus(couponList, userCouponRepository);
     }
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
