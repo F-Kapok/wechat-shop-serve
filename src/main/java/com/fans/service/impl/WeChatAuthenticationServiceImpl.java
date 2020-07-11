@@ -1,6 +1,6 @@
 package com.fans.service.impl;
 
-import com.fans.common.WeChatModel;
+import com.fans.common.wechat.WeChatModel;
 import com.fans.core.exception.http.ParameterException;
 import com.fans.entity.User;
 import com.fans.repository.UserRepository;

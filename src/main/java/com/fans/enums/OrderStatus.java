@@ -1,5 +1,7 @@
 package com.fans.enums;
 
+import java.util.Arrays;
+
 /**
  * enumName: OrderStatus
  *
@@ -18,10 +20,10 @@ public enum OrderStatus {
     DELIVERED(3, "已发货"),
     FINISHED(4, "已完成"),
     CANCELED(5, "已取消"),
-
     // 预扣除库存不存在以下这两种情况
     PAID_BUT_OUT_OF(21, "已支付，但无货或库存不足"),
-    DEAL_OUT_OF(22, "已处理缺货但支付的情况");
+    DEAL_OUT_OF(22, "已处理缺货但支付的情况"),
+    OTHER(-1, "其他");
 
     private final Integer code;
     private final String desc;
@@ -37,6 +39,20 @@ public enum OrderStatus {
 
     public String getDesc() {
         return desc;
+    }
+
+    public static OrderStatus get(Integer code) {
+        return Arrays.stream(OrderStatus.values())
+                .filter(value -> value.getCode().equals(code))
+                .findAny()
+                .orElse(OrderStatus.OTHER);
+    }
+
+    public static OrderStatus get(String desc) {
+        return Arrays.stream(OrderStatus.values())
+                .filter(value -> value.getDesc().equals(desc))
+                .findAny()
+                .orElse(OrderStatus.OTHER);
     }
 
 }

@@ -1,10 +1,13 @@
 package com.fans.entity;
 
 import com.fans.dto.OrderAddressDTO;
+import com.fans.enums.OrderStatus;
 import com.fans.utils.JsonUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.*;
 import org.hibernate.annotations.Where;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -70,5 +73,17 @@ public class Order extends BaseEntity implements Serializable {
 
     public void setSnapAddress(OrderAddressDTO orderAddressDTO) {
         this.snapAddress = JsonUtils.obj2String(orderAddressDTO);
+    }
+
+    @JsonIgnore
+    public OrderStatus getOrderStatusEnum() {
+        return OrderStatus.get(this.status);
+    }
+
+    public Boolean needCancel() {
+        if (!this.getOrderStatusEnum().equals(OrderStatus.UNPAID)) {
+            return Boolean.TRUE;
+        }
+        return new DateTime(this.expiredTime).isBeforeNow();
     }
 }

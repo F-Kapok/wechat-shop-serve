@@ -35,5 +35,6 @@ public class OrderSimplifyVO implements Serializable {
     private Date expiredTime;
     private Date placedTime;
     private Long period;
+    private Date createTime;
 
 }

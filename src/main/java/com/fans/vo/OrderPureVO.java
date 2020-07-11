@@ -1,6 +1,7 @@
 package com.fans.vo;
 
 import com.fans.entity.Order;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
 

@@ -26,4 +26,6 @@ public interface IOrderService {
     Page<Order> getByStatus(int status, int pageNum, Integer count);
 
     Optional<Order> getOrderDetail(Long orderId);
+
+    Order updateOrderPrepayId(Long orderId, String prePayId);
 }

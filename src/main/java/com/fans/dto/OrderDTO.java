@@ -1,5 +1,7 @@
 package com.fans.dto;
 
+import com.fans.entity.OrderSku;
+import com.fans.entity.Sku;
 import lombok.*;
 
 import java.io.Serializable;
@@ -33,6 +35,8 @@ public class OrderDTO implements Serializable {
     private List<SkuInfoDTO> skuInfoList;
 
     private OrderAddressDTO address;
+
+    private List<OrderSku> orderItems;
 
 
 }

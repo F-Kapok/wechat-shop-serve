@@ -1,4 +1,4 @@
-package com.fans.common;
+package com.fans.common.wechat;
 
 import lombok.*;
 

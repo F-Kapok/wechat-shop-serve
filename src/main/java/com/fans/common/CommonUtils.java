@@ -7,6 +7,7 @@ import com.fans.repository.UserCouponRepository;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,10 +30,18 @@ public class CommonUtils {
                         && interval.contains(DateTime.now())
                         && userCoupon.getOrderId() == null) {
                     coupon.setStatus(CouponStatus.AVAILABLE.getCode());
-                } else {
+                } else if (userCoupon.getStatus().equals(CouponStatus.USED.getCode())) {
+                    coupon.setStatus(CouponStatus.USED.getCode());
+                } else if(!interval.contains(DateTime.now())&&userCoupon.getOrderId() ==null){
+                    coupon.setStatus(CouponStatus.EXPIRED.getCode());
+                }else{
                     coupon.setStatus(0);
                 }
             });
         });
+    }
+
+    public static String yuan2FenPlainString(BigDecimal price) {
+        return price.multiply(new BigDecimal("100")).stripTrailingZeros().toPlainString();
     }
 }

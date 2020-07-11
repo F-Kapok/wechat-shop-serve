@@ -35,6 +35,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
@@ -103,7 +104,7 @@ public class OrderServiceImpl implements IOrderService {
                 .expiredTime(expiredTime.toDate())
                 .build();
         order.setSnapAddress(orderDTO.getAddress());
-        order.setSnapItems(order.getSnapItems());
+        order.setSnapItems(orderChecker.getOrderSkuList());
         order.setCreateTime(now.toDate());
         orderRepository.save(order);
         //减库存
@@ -138,6 +139,19 @@ public class OrderServiceImpl implements IOrderService {
     public Optional<Order> getOrderDetail(Long orderId) {
         Long userId = LocalUser.getUser().getId();
         return orderRepository.findFirstByUserIdAndId(userId, orderId);
+    }
+
+    @Override
+    public Order updateOrderPrepayId(Long orderId, String prePayId) {
+        Long userId = LocalUser.getUser().getId();
+        Optional<Order> orderOptional = orderRepository.findFirstByUserIdAndId(userId, orderId);
+        AtomicReference<Order> save = new AtomicReference<>(null);
+        orderOptional.ifPresent(order -> {
+            order.setPrepayId(prePayId);
+            save.set(orderRepository.save(order));
+        });
+        orderOptional.orElseThrow(() -> new ParameterException(10007));
+        return save.get();
     }
 
     /**

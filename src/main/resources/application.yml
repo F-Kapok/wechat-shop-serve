@@ -15,3 +15,7 @@ wechat:
   appid: wxb596d23b0c9f5dd2
   appsecret: ac919349bf19abdcd5c834c42a631a4a
   code2session: https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code
+wxpay:
+  machId: 1522963161
+  key: 13093019941101241818538111791fan
+  notifyUrl: http://creamk.natapp1.cc/v1/payment/notify
