@@ -4,6 +4,7 @@ import com.fans.entity.Sku;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,5 +26,9 @@ public interface SkuRepository extends JpaRepository<Sku, Long> {
     @Query(value = "update Sku s set s.stock = s.stock - :quantity\n" +
             "where s.id = :skuId\n" +
             "and s.stock >= :quantity")
-    int reduceStock(Long skuId, Long quantity);
+    int reduceStock(@Param("skuId") Long skuId, @Param("quantity") Long quantity);
+
+    @Modifying
+    @Query(value = "update Sku s set s.stock = s.stock + (:quantity) where s.id = :skuId\n")
+    int recoverStock(@Param("skuId") Long skuId, @Param("quantity") Long quantity);
 }

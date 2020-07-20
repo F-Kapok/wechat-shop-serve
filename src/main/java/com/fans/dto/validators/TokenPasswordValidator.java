@@ -1,6 +1,7 @@
 package com.fans.dto.validators;
 
 import com.fans.annotation.TokenPassword;
+import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;
@@ -14,6 +15,7 @@ import javax.validation.ConstraintValidatorContext;
  * @description 密码校验器
  * @date 2020-05-31 21:00
  **/
+@Data
 public class TokenPasswordValidator implements ConstraintValidator<TokenPassword, String> {
 
     private Integer min;
@@ -27,9 +29,6 @@ public class TokenPasswordValidator implements ConstraintValidator<TokenPassword
 
     @Override
     public boolean isValid(String password, ConstraintValidatorContext constraintValidatorContext) {
-        if (StringUtils.isBlank(password)) {
-            return true;
-        }
-        return false;
+        return StringUtils.isBlank(password);
     }
 }

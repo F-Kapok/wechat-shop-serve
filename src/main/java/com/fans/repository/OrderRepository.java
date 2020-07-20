@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -34,5 +35,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Modifying
     @Query(value = "update `order` set status = :orderStatus where order_no = :orderNo", nativeQuery = true)
-    int updateStatusByOrderNo(String orderNo, Integer orderStatus);
+    int updateStatusByOrderNo(@Param("orderNo") String orderNo, @Param("orderStatus") Integer orderStatus);
+
+    @Modifying
+    @Query(value = "update `order` set status = 5 where id = :orderId and status = 1", nativeQuery = true)
+    int cancelOrder(@Param("orderId") Long orderId);
 }

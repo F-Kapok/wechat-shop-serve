@@ -3,6 +3,7 @@ package com.fans.service;
 import com.fans.dto.OrderDTO;
 import com.fans.entity.Order;
 import com.fans.logic.OrderChecker;
+import com.fans.manager.redis.model.RedisMessageKey;
 import org.springframework.data.domain.Page;
 
 import java.util.Optional;
@@ -28,4 +29,24 @@ public interface IOrderService {
     Optional<Order> getOrderDetail(Long orderId);
 
     Order updateOrderPrepayId(Long orderId, String prePayId);
+
+    void sendToRedis(Long orderId, Long userId, Long couponId);
+
+    /**
+     * description: 订单定时取消 并且库存归还
+     *
+     * @param redisMessageKey redis通知Key
+     * @author k
+     * @date 2020/07/20 21:02
+     **/
+    void cancelOrder(RedisMessageKey redisMessageKey);
+
+    /**
+     * description: 订单定时取消 并且归还优惠券
+     *
+     * @param redisMessageKey redis通知Key
+     * @author k
+     * @date 2020/07/20 21:04
+     **/
+    void returnBackCoupon(RedisMessageKey redisMessageKey);
 }

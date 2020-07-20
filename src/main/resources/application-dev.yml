@@ -64,7 +64,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     open-in-view: false
     properties:
       hibernate:
@@ -81,6 +81,8 @@ spring:
     password: sl6819961
     # 连接redis超时时间（毫秒）
     timeout: 0
+    # 订阅通知
+    listen-pattern: __keyevent@0__:expired
     #jedis连接池
     ###############################
     jedis:

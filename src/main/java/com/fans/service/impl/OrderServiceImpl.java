@@ -1,9 +1,11 @@
 package com.fans.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.fans.common.LocalUser;
 import com.fans.core.exception.http.ForbiddenException;
 import com.fans.core.exception.http.NotFountException;
 import com.fans.core.exception.http.ParameterException;
+import com.fans.core.exception.http.ServerErrorException;
 import com.fans.dto.OrderDTO;
 import com.fans.dto.SkuInfoDTO;
 import com.fans.entity.Coupon;
@@ -14,6 +16,7 @@ import com.fans.enums.CouponStatus;
 import com.fans.enums.OrderStatus;
 import com.fans.logic.CouponChecker;
 import com.fans.logic.OrderChecker;
+import com.fans.manager.redis.model.RedisMessageKey;
 import com.fans.repository.CouponRepository;
 import com.fans.repository.OrderRepository;
 import com.fans.repository.SkuRepository;
@@ -23,10 +26,12 @@ import com.fans.service.ISkuService;
 import com.fans.utils.OrderUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +40,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -63,6 +69,8 @@ public class OrderServiceImpl implements IOrderService {
     private Integer maxSkuLimit;
     @Value("${kapok.order.pay-time-limit}")
     private Integer payTimeLimit;
+    @Resource(type = StringRedisTemplate.class)
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public OrderChecker isOk(Long userId, OrderDTO orderDTO) {
@@ -110,10 +118,13 @@ public class OrderServiceImpl implements IOrderService {
         //减库存
         reduceStock(orderChecker);
         //核销优惠券
+        Long couponId = -1L;
         if (orderDTO.getCouponId() != null) {
             writeOffCoupon(orderDTO.getCouponId(), order.getId(), userId);
+            couponId = orderDTO.getCouponId();
+
         }
-        //TODO 加入至延迟消息队列
+        sendToRedis(order.getId(), userId, couponId);
         return order.getId();
     }
 
@@ -152,6 +163,63 @@ public class OrderServiceImpl implements IOrderService {
         });
         orderOptional.orElseThrow(() -> new ParameterException(10007));
         return save.get();
+    }
+
+    @Override
+    public void sendToRedis(Long orderId, Long userId, Long couponId) {
+        RedisMessageKey redisMessageKey = RedisMessageKey.builder()
+                .orderId(orderId)
+                .userId(userId)
+                .couponId(couponId)
+                .build();
+        try {
+            stringRedisTemplate.opsForValue().set(JSON.toJSONString(redisMessageKey), "kapok", payTimeLimit, TimeUnit.SECONDS);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @EventListener
+    @org.springframework.core.annotation.Order(value = 1)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    @Override
+    public void cancelOrder(RedisMessageKey redisMessageKey) {
+        if (redisMessageKey.getOrderId() <= 0) {
+            throw new ServerErrorException(9999);
+        }
+        this.cancel(redisMessageKey.getOrderId());
+    }
+
+    @EventListener
+    @org.springframework.core.annotation.Order(value = 2)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    @Override
+    public void returnBackCoupon(RedisMessageKey redisMessageKey) {
+        Long orderId = redisMessageKey.getOrderId();
+        Long userId = redisMessageKey.getUserId();
+        Long couponId = redisMessageKey.getCouponId();
+        if (couponId == -1) {
+            return;
+        }
+        Optional<Order> orderOptional = orderRepository.findFirstByUserIdAndId(userId, orderId);
+        Order order = orderOptional.orElseThrow(() -> new ServerErrorException(9999));
+        if (order.getOrderStatusEnum().equals(OrderStatus.UNPAID)
+                || order.getOrderStatusEnum().equals(OrderStatus.CANCELED)) {
+            userCouponRepository.recoverCoupon(couponId, userId);
+        }
+
+    }
+
+    private void cancel(Long orderId) {
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+        Order order = orderOptional.orElseThrow(() -> new ServerErrorException(9999));
+        int row = orderRepository.cancelOrder(orderId);
+        if (row != 1) {
+            return;
+        }
+        order.getSnapItems().forEach(orderSku -> {
+            skuRepository.recoverStock(orderSku.getId(), orderSku.getCount().longValue());
+        });
     }
 
     /**
