@@ -103,6 +103,14 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: true
 swagger:
   enable: true
+rocketmq:
+  topic: orderTopic
+  producer:
+    producer-group: kapokProducerGroup
+  consumer:
+    consumer-group: kapokConsumerGroup
+  namesrv-addr: 127.0.0.1:9876
+
 kapok:
   security:
     jwt-key: kapok
