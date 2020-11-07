@@ -18,4 +18,4 @@ wechat:
 wxpay:
   machId: 1522963161
   key: 13093019941101241818538111791fan
-  notifyUrl: http://creamk.natapp1.cc/v1/payment/notify
+  notifyUrl: https://kapok.natapp4.cc/v1/payment/notify

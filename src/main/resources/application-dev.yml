@@ -4,7 +4,7 @@
 #
 ############################################################
 server:
-  port: 8081
+  port: ${port:8081}
   servlet:
     context-path: /
   tomcat:
@@ -27,7 +27,7 @@ logging:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/wechat?characterEncoding=utf-8&serverTimezone=GMT%2b8&allowMultiQueries=true
+    url: jdbc:mysql://192.168.0.3:3306/wechat?characterEncoding=utf-8&serverTimezone=GMT%2b8&allowMultiQueries=true
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
@@ -74,7 +74,7 @@ spring:
     # redis数据库索引(默认为0)
     database: 0
     # redis服务器IP地址
-    host: 127.0.0.1
+    host: 192.168.0.3
     # redis端口号
     port: 6379
     # redis密码，默认为空
@@ -109,7 +109,7 @@ rocketmq:
     producer-group: kapokProducerGroup
   consumer:
     consumer-group: kapokConsumerGroup
-  namesrv-addr: 127.0.0.1:9876
+  namesrv-addr: 192.168.0.3:9876
 
 kapok:
   security:
@@ -118,5 +118,5 @@ kapok:
   order:
     max-sku-limit: 777
     pay-time-limit: 3600
-    pay-callback-host: http://creamk.natapp1.cc
+    pay-callback-host: https://kapok.natapp4.cc
     pay-callback-path: /v1/payment/notify

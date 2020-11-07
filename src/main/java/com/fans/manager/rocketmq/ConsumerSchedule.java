@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * @description rocketMQ消费者
  * @date 2020-07-26 22:38
  **/
-@Component(value = "consumerSchedule")
+//@Component(value = "consumerSchedule")
 @Slf4j
 public class ConsumerSchedule implements CommandLineRunner {
 
@@ -51,6 +51,6 @@ public class ConsumerSchedule implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.messageListener();
+//        this.messageListener();
     }
 }
