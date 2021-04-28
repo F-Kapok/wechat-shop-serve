@@ -1,5 +1,7 @@
 package com.fans.service;
 
+import com.fans.dto.EncryptDTO;
+
 /**
  * interfaceName: IWeChatAuthenticationService
  *
@@ -11,4 +13,6 @@ package com.fans.service;
 public interface IWeChatAuthenticationService {
 
     String code2Session(String code);
+
+    String getMobile(EncryptDTO encryptDTO);
 }

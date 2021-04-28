@@ -2,10 +2,13 @@ package com.fans.api.v1;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fans.core.exception.http.NotFountException;
+import com.fans.dto.EncryptDTO;
 import com.fans.dto.TokenDTO;
 import com.fans.dto.TokenGetDTO;
 import com.fans.service.IWeChatAuthenticationService;
+import com.fans.utils.JsonUtils;
 import com.fans.utils.JwtTokenUtils;
+import com.fans.vo.MobileVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,6 +58,12 @@ public class TokenController {
         Boolean valid = JwtTokenUtils.verifyToken(tokenDTO);
         jsonObject.put("is_valid", valid);
         return jsonObject;
+    }
+
+    @PostMapping(value = "mobile")
+    public MobileVO getMobile(@RequestBody @Validated EncryptDTO encryptDTO) {
+        String mobile = iWeChatAuthenticationService.getMobile(encryptDTO);
+        return JsonUtils.string2Obj(mobile, MobileVO.class);
     }
 
 }
